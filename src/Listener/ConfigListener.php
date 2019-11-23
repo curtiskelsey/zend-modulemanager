@@ -56,6 +56,11 @@ class ConfigListener extends AbstractListener implements
      * @var array
      */
     protected $paths = [];
+        
+    /**
+     * @var array
+     */
+    protected static $cachedConfig;
 
     /**
      * __construct
@@ -388,6 +393,10 @@ class ConfigListener extends AbstractListener implements
      */
     protected function getCachedConfig()
     {
-        return include $this->getOptions()->getConfigCacheFile();
+        if (!self::$cachedConfig) {
+            self::$cachedConfig = include $this->getOptions()->getConfigCacheFile();
+        }
+        
+        return self::$cachedConfig;
     }
 }
